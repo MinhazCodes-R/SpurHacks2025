@@ -1,0 +1,27 @@
+# Use Node.js LTS version
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy env file
+COPY .env.local .env.local
+
+# Copy project files
+COPY . .
+
+# 🔧 Disable ESLint checks during build
+# ENV NEXT_DISABLE_ESLINT 1
+
+# Build the Next.js app
+RUN npm run build
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Start the app
+CMD ["npm", "start"]
